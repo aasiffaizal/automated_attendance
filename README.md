@@ -1,4 +1,0 @@
-
-# Automated Attendance System
-
-
