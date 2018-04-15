@@ -1,0 +1,5 @@
+<h1>Welcome {{user.staff_name}}</h1>
+<h2> Your StaffID is {{user.staff_id}}  </h2>
+{%for entry in notifs%}
+  {{entry.student.student_name}} reported Hour(s) {{entry.error_hrs}} on {{entry.date_time}} <br>
+{%endfor%}

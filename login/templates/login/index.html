@@ -1,0 +1,249 @@
+{% load static %}
+<style>
+	.tab-group {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 40px 0;
+}
+.tab-group:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.tab-group li a {
+  display: block;
+  text-decoration: none;
+  padding: 15px;
+  background: rgba(160, 179, 176, 0.25);
+  color: #a0b3b0;
+  font-size: 20px;
+  float: left;
+  width: 50%;
+  text-align: center;
+  cursor: pointer;
+  
+}
+.tab-group li a:hover {
+	background: #b721ff;
+	left: -100%;
+	
+
+  color: #ffffff;
+}
+.tab-group .active a {
+  background: #21d4fd;
+
+  color: #ffffff;
+  
+}
+
+.tab-content > div:last-child {
+  display: none;
+}
+</style>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <!--===============================================================================================-->	
+		<link rel="icon" href="{% static 'assets/img/favicon.ico' %}">	
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'fonts/iconic/css/material-design-iconic-font.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+    <!--===============================================================================================-->	
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/css-hamburgers/hamburgers.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/animsition/css/animsition.min.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+    <!--===============================================================================================-->	
+        <link rel="stylesheet" type="text/css" href="{% static 'vendor/daterangepicker/daterangepicker.css' %}">
+    <!--===============================================================================================-->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <!--===============================================================================================-->
+    </head>
+<body>
+		
+	<div class="limiter">
+		<div class="container-login100">
+			<div class="wrap-login100" style="display:inline-block;">
+				
+				<ul class="tab-group">
+						<li class="active tab" id="admin-form-link"><a href="#" class="active " >Staff</a></li>
+						<li class="tab" id="student-form-link"><a href="#" class="" >Student</a></li>
+					  </ul>
+			
+				<form id="admin-form" class="login100-form validate-form1" action="/login/" method="post">
+					{% csrf_token %}
+					<span class="login100-form-title p-b-26">
+						Staff Login
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate="Enter username">
+						<input class="input100" id="staff_username" type="text" name="staff_username">
+						<span class="focus-input100" data-placeholder="Username"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<span class="btn-show-pass">
+							<i class="zmdi zmdi-eye"></i>
+						</span>
+						<input class="input100" id="staff_password" type="password" name="staff_password">
+						<span class="focus-input100" data-placeholder="Password"></span>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								Login
+							</button>
+						</div>
+						<div style="margin-top:10px;color:red;">
+							{%if error is not none %}
+							{{error}}
+							{% endif %}
+						</div>
+					</div>
+
+					<div class="text-center p-t-115">
+						<!-- fill the error login message -->
+					</div>
+				</form>
+				<form id="student-form" style="display: none;" class="login100-form validate-form2" action="/login/" method="post">
+					{% csrf_token %}
+						<span class="login100-form-title p-b-26">
+							Student
+						</span>
+						
+	
+						<div class="wrap-input100 validate-input" data-validate="Enter Admission Number">
+							<input class="input100" id="admission_number" type="text" name="admission_number" >
+							<span class="focus-input100" data-placeholder="Admission Number"></span>
+						</div>
+	
+						<div class="container-login100-form-btn">
+							<div class="wrap-login100-form-btn">
+								<div class="login100-form-bgbtn"></div>
+								<button class="login100-form-btn">
+									Login
+								</button>
+							</div>
+						</div>
+	
+						<div class="text-center p-t-115">
+							<!-- fill the error student message -->
+						</div>
+					</form>
+			</div>
+			<div class="wrap-login100" style="display:inline-block;">
+			
+				<form id="admin-form" class="login100-form validate-form1" action="/login/" method="POST">
+					{% csrf_token %}
+					<span class="login100-form-title p-b-26">
+						Attendance
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate="Enter Class">
+                        <input class="input100" type="text" id="classes" name="class">
+                        <select name="slug" class="input100">
+                                {% for entry in classlist %}
+                                    <option value="{{ entry.slug }}">{{ entry.department }}-{{ entry.semester }}{{ entry.section }}</option>
+                                {% endfor %}
+                        </select>
+						<span class="focus-input100" data-placeholder="Class"></span>
+					</div>
+
+					
+					<div class="container-login100-form-btn">
+						<div class="wrap-login100-form-btn">
+							<div class="login100-form-bgbtn"></div>
+							<button class="login100-form-btn">
+								Go
+							</button>
+						</div>
+					</div>
+
+					<div class="text-center p-t-115">
+						<!-- fill the error login message -->
+					</div>
+				</form>
+				
+			</div>
+		</div>
+	</div>
+	
+
+
+	<div id="dropDownSelect1"></div>
+	
+
+<!--===============================================================================================-->
+<script src="{% static 'vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>
+  <script>
+  $( function() {
+    var availableTags = [
+      "CSA",
+      "CSB",
+      "ECA",
+      "ECB",
+      "EEE",
+      "BME"
+    ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+	$( "#classes" ).autocomplete({
+      source: availableTags
+    });
+  } );
+  
+  </script>
+ <script>
+		$(function() {
+	   
+		 $('#admin-form-link').click(function(e) {
+		 $("#admin-form").delay(100).fadeIn(100);
+		  $("#student-form").fadeOut(100);
+		 $('#student-form-link').removeClass('active');
+		 $(this).addClass('active');
+		 e.preventDefault();
+	   });
+	   $('#student-form-link').click(function(e) {
+		 $("#student-form").delay(100).fadeIn(100);
+		  $("#admin-form").fadeOut(100);
+		 $('#admin-form-link').removeClass('active');
+		 $(this).addClass('active');
+		 e.preventDefault();
+	   });
+	   
+	   });
+	   
+	   
+	   </script>

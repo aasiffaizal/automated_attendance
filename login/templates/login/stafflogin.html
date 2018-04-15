@@ -1,0 +1,219 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+	
+<head>
+	<meta charset="utf-8">
+	<!--[if IE]>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<![endif]-->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	<title>Teacher &ndash; {{user.staff_name}}</title>
+	
+	<link rel="icon" href="{% static 'assets/img/favicon.ico' %}">
+	
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<!-- BEGIN CSS FRAMEWORK -->
+	<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/plugins/font-awesome/css/font-awesome.min.css' %}">
+
+	<!-- END CSS FRAMEWORK -->
+	
+	<!-- BEGIN CSS PLUGIN -->
+	<link rel="stylesheet" href="{% static 'assets/plugins/pace/pace-theme-minimal.css' %}">
+	<!-- END CSS PLUGIN -->
+	
+	<!-- BEGIN CSS TEMPLATE -->
+	<link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/css/skins.css' %}">
+	<!-- END CSS TEMPLATE -->
+</head>
+
+<body class="skin-dark">
+	<!-- BEGIN HEADER -->
+	<header class="header">
+			<a href="#" class="logo">
+					<img src="{% static 'assets/img/logo.png' %}" alt="MEC   " height="65">
+				</a>
+		<!-- END LOGO -->
+		<!-- BEGIN NAVBAR -->
+		<nav class="navbar navbar-static-top" role="navigation">
+			<div class="navbar-right">
+				<ul class="nav navbar-nav">
+					<li class="dropdown navbar-menu">
+						<a data-toggle="modal" class="btn dropdown-toggle" data-target="#modalDefault">
+							<i class="fa fa-envelope fa-lg"></i>
+							<span class="badge">{{count}}</span>
+						</a>
+					</li>
+					<li class="dropdown profile-menu">
+						<a href="/login/logout_view" class="dropdown-toggle" >
+							<i class="fa fa-power-off"></i>
+							<span class="username">Log Out</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+		<!-- END NAVBAR -->
+	</header>
+	<!-- END HEADER -->
+	
+	<div class="wrapper row-offcanvas row-offcanvas-left active relative">
+		<!-- BEGIN SIDEBAR -->
+		<aside class="left-side sidebar-offcanvas">
+			<section class="sidebar">
+				<ul class="sidebar-menu">
+					<li class="active">
+						<a href="#">
+							<i class="fa fa-calendar"></i><span>Attendance</span>
+						</a>
+					</li>
+					<li >
+						<a href="/login/reports">
+							<i class="fa fa-exclamation-triangle"></i><span>Reports</span>
+						</a>
+					</li>
+					<li >
+							<a href="/login/manual_method">
+								<i class="fa fa-users"></i><span>Add Attendance</span>
+							</a>
+						</li>
+				</ul>
+			</section>
+		</aside>
+		
+		<!-- END SIDEBAR -->
+		
+		<!-- BEGIN CONTENT -->
+		<aside class="right-side">
+			<!-- BEGIN CONTENT HEADER -->
+			<section class="content-header">
+				<i class="fa fa-calendar"></i>
+				<form action="/login/stafflogin/" method="post">
+						{% csrf_token %}
+					<button class="btn btn-primary" style="float:right;" href="#">
+						<i class="fa fa-pencil"></i><span> Update Attendance</span>
+					</button>
+				</form>
+				<span>Attendance</span>
+				
+				<ol class="breadcrumb">
+					<li><a href="/login/stafflogin/">Home</a></li>
+					<li class="active">Attendance</li>
+				</ol>
+			</section>
+			<!-- END CONTENT HEADER -->
+			
+			<!-- BEGIN MAIN CONTENT -->
+			<section class="content">
+				<div class="row">
+					<!-- BEGIN RESPONSIVE TABLE -->
+					<div style="width: 400px; margin: 0 auto; margin-top:55px;" class="container">
+						<form method="get" id="admin-form" class="login100-form validate-form1" action="/login/" target="_blank">
+							
+							<div class="col-sm-8">
+									<select id="slug" class="form-control" name="slug">
+									{% for entry in classlist %}
+										<option value="{{ entry.slug }}">{{ entry.department }}-{{ entry.semester }}{{ entry.section }}</option>
+									{% endfor %}
+									</select>
+									
+
+							</div>
+							<button id="buttonId" class="btn btn-primary">GO</button>
+						</form>
+						</div>
+						<!-- END RESPONSIVE TABLE -->
+						    <!-- START MODAL -->
+							<div class="modal fade" id="modalDefault" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+								<div class="modal-wrapper">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header bg-blue">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+												<h4 class="modal-title" id="myModalLabel1">Error Reports</h4>
+											</div>
+											<div class="modal-body">
+												<div class="table-responsive">
+													<table class="table table-hover">
+														<thead>
+															<tr>
+																<th>Student</th>
+																<th>Date</th>
+																<th>Hours</th>
+																<th>Action</th>
+																
+
+															</tr>
+														</thead>
+														<tbody>
+															{% for item in notifs %}
+															<tr>
+																<td>{{item.student.student_name}}</td>
+																<td>{{item.date_time}}</td>
+																<td>{{item.error_hrs}}</td>
+																<td>
+																	<a href="#"><i class="fa fa-check bg-blue action"></i></a>
+																	<a href="#"><i class="fa fa-times bg-red action"></i></a>
+																</td>
+					
+															</tr>
+															{% endfor %}
+														</tbody>
+													</table>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<div class="btn-group">
+													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+										<!-- END MODAL -->
+				</div>
+			</section>
+			<!-- END MAIN CONTENT -->
+		</aside>
+		<!-- END CONTENT -->
+		
+		<!-- BEGIN SCROLL TO TOP -->
+		<div class="scroll-to-top"></div>
+		<!-- END SCROLL TO TOP -->
+	</div>
+
+	<!-- BEGIN JS FRAMEWORK -->
+	<script src="{% static 'assets/plugins/jquery-2.1.0.min.js' %}"></script>
+	<script src="{% static 'assets/plugins/bootstrap/js/bootstrap.min.js' %}"></script>
+	<!-- END JS FRAMEWORK -->
+	
+	<!-- BEGIN JS PLUGIN -->
+	<script src="{% static 'assets/plugins/pace/pace.min.js' %}"></script>
+	<script src="{% static 'assets/plugins/jquery-totemticker/jquery.totemticker.min.js' %}"></script>
+	<script src="{% static 'assets/plugins/jquery-resize/jquery.ba-resize.min.js' %}"></script>
+	<script src="{% static 'assets/plugins/jquery-blockui/jquery.blockUI.min.js' %}"></script>
+	<script src="{% static 'assets/plugins/jquery-niftymodal/js/classie.js' %}"></script>
+	<script src="{% static 'assets/plugins/jquery-niftymodal/js/modalEffects.js' %}"></script>
+	<!-- END JS PLUGIN -->
+
+	<!-- BEGIN JS TEMPLATE -->
+	<script src="{% static 'assets/js/main.js' %}"></script>
+	<script src="{% static 'assets/js/skin-selector.js' %}"></script>
+	<!-- END JS TEMPLATE -->
+</body>
+</html>
+
+
+

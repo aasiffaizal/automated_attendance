@@ -1,0 +1,36 @@
+
+<table>
+<tr>
+<th>Day</th>
+<th>Hour 1</th>
+<th>Hour 2</th>
+<th>Hour 3</th>
+<th>Hour 4</th>
+<th>Hour 5</th>
+<th>Hour 6</th>
+
+
+
+
+</tr>	
+
+
+{% for entry in timetable %}
+<tr>
+   <td> {{ entry.day }} </td> <td>{{ entry.hour1.subject_name }}</td><td> {{ entry.hour2.subject_name }}</td> <td>{{ entry.hour3.subject_name }}</td><td> {{ entry.hour4.subject_name }} </td><td>{{ entry.hour5.subject_name }}</td><td> {{ entry.hour6.subject_name }}</td>
+</tr>
+{% endfor %}
+
+</table>
+
+<table rules="cols">
+<tr>
+<th>Student Name</th>
+<th> Details</th>
+<tr>	
+
+{%for entry in studentlist%}
+<tr><td>{{entry.student_name}}</td><td><a href="details/?admission_number={{ entry.admission_number }}">view details</a></td>
+</tr>
+{% endfor %}
+</table>

@@ -1,0 +1,20 @@
+<h2>Student:{{user.student_name}}  </h2>
+
+
+{% load mathfilters %}
+
+
+{%for entry in records  %}                   
+ {%for entry1 in counting  %}
+  {% ifequal entry.subject__subject_name entry1.subject.subject_name%}
+      {%if entry.the_count|div:entry1.count|mul:100 < 75 %}
+     <p  style="color:red;">{{entry.subject__subject_name}} {{entry.the_count|div:entry1.count|mul:100|floatformat}}</p>
+      {%endif%}
+      {%if entry.the_count|div:entry1.count|mul:100 >= 75 %}
+     <p  style="color:green;">{{entry.subject__subject_name}} {{entry.the_count|div:entry1.count|mul:100|floatformat}}</p>
+      {%endif%}
+
+  {% endifequal %}
+
+ {% endfor %}
+{% endfor %}
