@@ -8,6 +8,8 @@ Inital setup available in setup folder.
 ## OpenCV
 
 OpenCV should be installed using the script in the setup folder. Make sure you install it in your home folder.
+
 `cd ~`
+
 `sudo bash install_opencv.sh`
 
